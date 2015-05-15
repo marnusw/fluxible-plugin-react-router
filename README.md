@@ -24,6 +24,4 @@ app.plug(reactRouter(Router.create({
     location: url // this is an isomorphic pivot, act accordingly!
 })))
 
-}
-
 ```
