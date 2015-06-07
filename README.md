@@ -40,18 +40,18 @@ function someAction(actionContext, payload, done) {
 
 As noted above the location argument to `Router.create` is an isomorphic pivot.
 When on the server side one will want to use `req.url` and on the client side,
-`window.location`. This isomporphic trouble can be solved by abstracting the
-app into a function.
+`Router.HistoryLocation` or another Location implementation. This isomorphic 
+trouble can be solved by abstracting the app into a function.
 
 ```javascript
-function makeApp (url) {
+function makeApp (location) {
   const app = new Fluxible({
     component: require('./mainRoutes.jsx') // your routes component goes here
   })
 
   const router = Router.create({
     routes: app.getComponent(),
-    location: url
+    location: location
   })
 
   app.plug(reactRouter(router))
@@ -60,14 +60,23 @@ function makeApp (url) {
 }
 ```
 
-Now we can pass in the url using the appropriate semantics for the client
+Now we can pass in the location using the appropriate semantics and then run
+the router on the client
 
 ```javascript
 const app = makeApp(Router.HistoryLocation)
+
+app.getPlugin('ReactRouterPlugin').run((Root, state) => {
+  // Render for the client...
+}))
 ```
 
 or the server
 
 ```javascript
 const app = makeApp(req.url)
+
+app.getPlugin('ReactRouterPlugin').run((Root, state) => {
+  // Render for the server...
+}))
 ```
