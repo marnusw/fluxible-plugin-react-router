@@ -46,12 +46,12 @@ app into a function.
 ```javascript
 function makeApp (url) {
   const app = new Fluxible({
-      component: require('./mainRoutes.jsx') // your routes component goes here
+    component: require('./mainRoutes.jsx') // your routes component goes here
   })
 
   const router = Router.create({
-      routes: app.getComponent(),
-      location: url
+    routes: app.getComponent(),
+    location: url
   })
 
   app.plug(reactRouter(router))
@@ -63,7 +63,7 @@ function makeApp (url) {
 Now we can pass in the url using the appropriate semantics for the client
 
 ```javascript
-const app = makeApp(window.location)
+const app = makeApp(Router.HistoryLocation)
 ```
 
 or the server
